@@ -13,3 +13,8 @@ build/
 # 認証情報ファイル
 # !!! 絶対にGitにコミットしない !!!
 config.ini
+
+# uv
+*.toml
+*.lock
+*.version
