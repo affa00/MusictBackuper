@@ -17,4 +17,4 @@ config.ini
 # uv
 *.toml
 *.lock
-*.version
+*version
