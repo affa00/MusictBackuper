@@ -35,32 +35,29 @@ def show_settings_window(parent):
     frame.columnconfigure(1, weight=1)
     
     # --- 変数 ---
-    key_var = tk.StringVar(value=config.AWS_KEY or '')
-    secret_var = tk.StringVar(value=config.AWS_SECRET or '')
-    region_var = tk.StringVar(value=config.AWS_REGION or 'ap-northeast-1')
     storage_var = tk.StringVar(value=config.STORAGE_CLASS or 'DEEP_ARCHIVE')
     zipdir_var = tk.StringVar(value=config.ZIP_TEMP_DIR or '.')
     
     # --- レイアウト ---
-    ttk.Label(frame, text="AWS Access Key ID:").grid(row=0, column=0, sticky=tk.W, pady=8)
-    ttk.Entry(frame, textvariable=key_var, width=60).grid(row=0, column=1, sticky=(tk.W, tk.E))
+    # ttk.Label(frame, text="AWS Access Key ID:").grid(row=0, column=0, sticky=tk.W, pady=8)
+    # ttk.Entry(frame, textvariable=key_var, width=60).grid(row=0, column=1, sticky=(tk.W, tk.E))
     
-    ttk.Label(frame, text="AWS Secret Access Key:").grid(row=1, column=0, sticky=tk.W, pady=8)
-    ttk.Entry(frame, textvariable=secret_var, width=60, show='*').grid(row=1, column=1, sticky=(tk.W, tk.E))
+    # ttk.Label(frame, text="AWS Secret Access Key:").grid(row=1, column=0, sticky=tk.W, pady=8)
+    # ttk.Entry(frame, textvariable=secret_var, width=60, show='*').grid(row=1, column=1, sticky=(tk.W, tk.E))
     
-    ttk.Label(frame, text="AWS Region:").grid(row=2, column=0, sticky=tk.W, pady=8)
-    ttk.Entry(frame, textvariable=region_var, width=60).grid(row=2, column=1, sticky=(tk.W, tk.E))
+    # ttk.Label(frame, text="AWS Region:").grid(row=2, column=0, sticky=tk.W, pady=8)
+    # ttk.Entry(frame, textvariable=region_var, width=60).grid(row=2, column=1, sticky=(tk.W, tk.E))
     
-    ttk.Separator(frame, orient='horizontal').grid(row=3, column=0, columnspan=2, sticky='ew', pady=15)
+    # ttk.Separator(frame, orient='horizontal').grid(row=3, column=0, columnspan=2, sticky='ew', pady=15)
     
-    ttk.Label(frame, text="S3 Storage Class:").grid(row=4, column=0, sticky=tk.W, pady=8)
-    ttk.Entry(frame, textvariable=storage_var, width=60).grid(row=4, column=1, sticky=(tk.W, tk.E))
+    ttk.Label(frame, text="S3 Storage Class:").grid(row=0, column=0, sticky=tk.W, pady=8)
+    ttk.Entry(frame, textvariable=storage_var, width=60).grid(row=0, column=1, sticky=(tk.W, tk.E))
     
     # --- Zip Temp Dir (フォルダ選択に変更) ---
-    ttk.Label(frame, text="Zip Temp Dir:").grid(row=5, column=0, sticky=tk.W, pady=8)
+    ttk.Label(frame, text="Zip Temp Dir:").grid(row=1, column=0, sticky=tk.W, pady=8)
     
     zip_entry_frame = ttk.Frame(frame)
-    zip_entry_frame.grid(row=5, column=1, sticky=(tk.W, tk.E))
+    zip_entry_frame.grid(row=1, column=1, sticky=(tk.W, tk.E))
     zip_entry_frame.columnconfigure(0, weight=1) # エントリーが伸縮
     
     zip_entry = ttk.Entry(zip_entry_frame, textvariable=zipdir_var, state='readonly')
@@ -76,22 +73,15 @@ def show_settings_window(parent):
     
     # --- ボタン ---
     btn_frame = ttk.Frame(frame)
-    btn_frame.grid(row=6, column=0, columnspan=2, pady=15)
+    btn_frame.grid(row=2, column=0, columnspan=2, pady=15)
     
     result = {"saved": False}
     
     def on_save():
-        key = key_var.get().strip()
-        secret = secret_var.get().strip()
-        
-        if not key or not secret:
-            messagebox.showerror("入力エラー", "Access Key ID と Secret Access Key は必須です。", parent=settings_win)
-            return
-
         settings = {
-            'aws_key': key,
-            'aws_secret': secret,
-            'aws_region': region_var.get().strip() or 'ap-northeast-1',
+            # 'aws_key': key,
+            # 'aws_secret': secret,
+            # 'aws_region': region_var.get().strip() or 'ap-northeast-1',
             'storage_class': storage_var.get().strip() or 'DEEP_ARCHIVE',
             'zip_temp_dir': zipdir_var.get().strip() or '.'
         }

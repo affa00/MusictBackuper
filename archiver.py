@@ -19,15 +19,15 @@ def perform_archive(source_dir, target_dir, s3_bucket, status_callback):
         status_callback("エラー: 設定ファイル(config.ini)の読み込みに失敗しました。")
         return False, "設定ファイル(config.ini)の読み込みに失敗しました。"
 
-    AWS_KEY = config.AWS_KEY
-    AWS_SECRET = config.AWS_SECRET
-    AWS_REGION = config.AWS_REGION
+    # AWS_KEY = config.AWS_KEY
+    # AWS_SECRET = config.AWS_SECRET
+    # AWS_REGION = config.AWS_REGION
     STORAGE_CLASS = config.STORAGE_CLASS
     ZIP_TEMP_DIR = config.ZIP_TEMP_DIR
     
-    if not all([AWS_KEY, AWS_SECRET]):
-        status_callback("エラー: AWS認証情報が設定されていません。")
-        return False, "AWS認証情報が設定されていません。"
+    # if not all([AWS_KEY, AWS_SECRET]):
+    #     status_callback("エラー: AWS認証情報が設定されていません。")
+    #     return False, "AWS認証情報が設定されていません。"
 
     try:
         # --- 1. ファイルのコピー ---
@@ -65,14 +65,9 @@ def perform_archive(source_dir, target_dir, s3_bucket, status_callback):
         # --- 3. S3へのアップロード ---
         status_callback("3/3: S3にアップロードしています...")
 
-        session = boto3.Session(
-            aws_access_key_id=AWS_KEY,
-            aws_secret_access_key=AWS_SECRET,
-            region_name=AWS_REGION
-        )
-        s3 = session.client('s3')
+        s3_client = boto3.client('s3')
 
-        s3.upload_file(
+        s3_client.upload_file(
             zip_output_path,
             s3_bucket,
             zip_filename,
